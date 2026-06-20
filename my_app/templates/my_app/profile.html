@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .profile-card { background: white; padding: 40px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 4px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; text-align: center; }
+        
+        /* Avatar Container Setup to Prevent Broken Icon Layouts */
+        .avatar-box { width: 100px; height: 100px; margin: 0 auto 15px auto; position: relative; }
+        
+        .avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #4f46e5; display: block; }
+        
+        /* Premium Automatic Avatar Badge */
+        .avatar-placeholder { width: 100px; height: 100px; border-radius: 50%; background: #4f46e5; color: white; display: flex; justify-content: center; align-items: center; font-size: 36px; font-weight: 700; border: 3px solid #4f46e5; text-transform: uppercase; box-sizing: border-box; }
+        
+        h2 { margin-bottom: 20px; font-weight: 800; color: #0f172a; }
+        .btn { background: #4f46e5; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; font-size: 15px; margin-top: 15px; }
+        .btn-cancel { background: #e2e8f0; color: #0f172a; text-decoration: none; display: block; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 15px; margin-top: 10px; text-align: center; }
+        textarea, input[type="file"] { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #e2e8f0; box-sizing: border-box; margin-bottom: 15px; font-family: inherit; }
+        label { display: block; text-align: left; font-weight: 600; margin-bottom: 5px; font-size: 14px; color: #475569; }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <h2>Your Profile Settings ⚙️</h2>
+        
+        <div class="avatar-box">
+            {% if profile.profile_pic and profile.profile_pic.name != 'default.png' and profile.profile_pic.name != '' %}
+                <img src="{{ profile.profile_pic.url }}" class="avatar" alt="Profile Pic" onerror="this.style.display='none'; document.getElementById('backup-avatar').style.display='flex';">
+                <div id="backup-avatar" class="avatar-placeholder" style="display: none;">{{ request.user.username|slice:":1" }}</div>
+            {% else %}
+                <div class="avatar-placeholder">{{ request.user.username|slice:":1" }}</div>
+            {% endif %}
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="text-align: left;">
+                <label>Change Profile Picture</label>
+                <input type="file" name="profile_pic" accept="image/*">
+                
+                <label>Your Bio</label>
+                <textarea name="bio" rows="4">{{ profile.bio }}</textarea>
+            </div>
+            <button type="submit" class="btn">Save Profile</button>
+            <a href="/" class="btn-cancel">Back to Dashboard</a>
+        </form>
+    </div>
+</body>
+</html>

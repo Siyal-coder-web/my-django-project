@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .auth-card { background: white; padding: 40px; border-radius: 16px; width: 100%; max-width: 360px; box-shadow: 0 4px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; text-align: center; }
+        h2 { margin-bottom: 24px; font-weight: 800; font-size: 26px; color: #0f172a; }
+        .btn-auth { background: #4f46e5; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; font-size: 15px; margin-top: 10px; }
+        .btn-auth:hover { background: #4338ca; }
+        p { margin-top: 24px; color: #64748b; font-size: 14px; }
+        a { color: #4f46e5; text-decoration: none; font-weight: 600; }
+        input { width: 100%; padding: 12px; margin-bottom: 16px; border-radius: 10px; border: 1px solid #e2e8f0; box-sizing: border-box; font-size: 15px; }
+        input:focus { border-color: #4f46e5; outline: none; }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h2>Welcome Back 🔐</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-auth">Sign In</button>
+        </form>
+        <p>New here? <a href="{% url 'signup' %}">Create account</a></p>
+    </div>
+</body>
+</html>
