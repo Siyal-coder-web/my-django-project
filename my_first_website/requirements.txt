@@ -1,3 +1,4 @@
-django
-asgiref
-sqlparse
+django==4.2.11
+whitenoise==6.6.0
+asgiref==3.7.2
+sqlparse==0.4.4
