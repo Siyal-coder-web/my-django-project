@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import urllib.parse
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -57,12 +58,18 @@ WSGI_APPLICATION = 'my_first_website.wsgi.application'
 
 
 # ==============================================================================
-# PROFESSIONAL CLOUD DATABASE CONFIGURATION (NEON POSTGRESQL)
+# PROFESSIONAL CLOUD DATABASE CONFIGURATION (NEON POSTGRESQL) WITH ENCODING
 # ==============================================================================
+# Aapka asli password yahan set kar diya hai:
+NEON_PASSWORD = "npg_DOifT6Zv5Wpq"
+
+ENCODED_PASSWORD = urllib.parse.quote_plus(NEON_PASSWORD)
+
+DATABASE_URL = f"postgresql://neondb_owner:{ENCODED_PASSWORD}@ep-patient-surf-ai1zwri2-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+
 DATABASES = {
     'default': dj_database_url.config(
-        # TODO: Is single quote ke andar apni Neon wali puri connection string paste karein
-        default='postgresql://neondb_owner:ep-patient-surf-ai1zwri2-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require',
+        default=DATABASE_URL,
         conn_max_age=600,
         ssl_require=True
     )
